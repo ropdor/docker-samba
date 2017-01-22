@@ -1,9 +1,11 @@
-FROM alpine:3.5
+FROM alpine
 RUN \
 	apk -U add samba
+
+ADD smb.conf /etc/samba
 
 RUN \
 	rm -rf /var/cache/apk/*
 
 EXPOSE 139 445
-ENTRYPOINT ["/usr/sbin/smbd","-FS"]
+ENTRYPOINT exec /usr/sbin/smbd -FS < /dev/null
